@@ -34,7 +34,7 @@ exports.delete = (req, res) => {
     .then((data) => res.json({ msg: "deleted ok" }))
     .catch((err) => {
       let message = "Error deleting todo with id=" + req.params.id;
-      throwError(res, 500, message);
+      res.json({ error: err });
     });
 };
 
@@ -49,13 +49,13 @@ exports.update = (req, res) => {
       if (!data) {
         let message =
           "Cannot update todo with id=" + id + ". User was not found!";
-        throwError(res, 404, message);
+        res.json({ error: message });
       } else {
         res.json({ msg: "todo was updated successfully" });
       }
     })
     .catch((err) => {
       let message = "Error updating todo with id=" + id;
-      throwError(res, 500, message);
+      res.json({ error: message });
     });
 };
