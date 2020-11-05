@@ -48,7 +48,7 @@ exports.update = (req, res) => {
     .then((data) => {
       if (!data) {
         let message =
-          "Cannot update todo with id=" + id + ". User was not found!";
+          "Cannot update todo with id=" + id + ". todo was not found!";
         res.json({ error: message });
       } else {
         res.json({ msg: "todo was updated successfully" });
