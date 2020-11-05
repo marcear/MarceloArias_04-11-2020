@@ -1,6 +1,13 @@
 import React, { useEffect, useState } from "react";
 //semantic ui
-import { Input, Button, Container, FormField, Header } from "semantic-ui-react";
+import {
+  Input,
+  Button,
+  Container,
+  FormField,
+  Header,
+  Loader,
+} from "semantic-ui-react";
 //components
 import TodoList from "./TodoList";
 //services
@@ -12,6 +19,7 @@ const Todo = () => {
   const [actions, setActions] = useState([]);
   const [action, setAction] = useState("");
   const [todoToEdit, setTodoToEdit] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   const addEditTodo = () => {
     if (action && action.length > 0) {
@@ -45,10 +53,16 @@ const Todo = () => {
   };
 
   const getTodos = () => {
-    todoservice
-      .getAllTodos()
-      .then((response) => setActions(response.data))
-      .catch((error) => console.log(error));
+    setLoading(true);
+    setTimeout(() => {
+      todoservice
+        .getAllTodos()
+        .then((response) => {
+          setActions(response.data);
+          setLoading(false);
+        })
+        .catch((error) => console.log(error));
+    }, 200);
   };
 
   const handleTodoItemDelete = (id) => {
@@ -75,6 +89,14 @@ const Todo = () => {
     getTodos();
   }, []);
 
+  if (loading) {
+    return (
+      <div className="todo-loader">
+        <Loader active inline="centered" />
+      </div>
+    );
+  }
+
   return (
     <>
       <header className="todo-header">
@@ -98,7 +120,7 @@ const Todo = () => {
             </Button>
           </FormField>
         </div>
-        <p>Select to update</p>
+        <p>Check to update</p>
         <Container className="todo-container">
           {actions.length == 0 ? (
             <h5>No todos</h5>
