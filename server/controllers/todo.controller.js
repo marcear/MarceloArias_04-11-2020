@@ -20,7 +20,6 @@ exports.create = (req, res) => {
   const todo = new Todo({
     action: todoFromRequest.action,
   });
-  console.log("new todoFromRequest", todoFromRequest);
   // Save User in the database
   todo
     .save(todo)
